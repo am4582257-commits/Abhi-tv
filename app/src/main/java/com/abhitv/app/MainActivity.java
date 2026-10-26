@@ -217,21 +217,35 @@ public class MainActivity extends Activity {
     private void addFeatured() {
         LinearLayout banner = new LinearLayout(this);
         banner.setOrientation(LinearLayout.VERTICAL);
-        banner.setGravity(Gravity.CENTER_VERTICAL);
-        banner.setPadding(18, 20, 18, 20);
-        banner.setBackground(shape(Color.rgb(10, 35, 79), 18));
-
-        TextView heading = text("ABHI TV", 30, WHITE);
-        heading.setTypeface(null, Typeface.BOLD);
+        banner.setGravity(Gravity.BOTTOM);
+        banner.setPadding(22, 22, 22, 22);
+        GradientDrawable cinematic = new GradientDrawable(GradientDrawable.Orientation.TL_BR,
+                new int[]{Color.rgb(20, 75, 145), Color.rgb(8, 20, 48), Color.rgb(3, 7, 18)});
+        cinematic.setCornerRadius(24);
+        banner.setBackground(cinematic);
+        TextView tag = text("✦  ABHI TV ORIGINAL", 11, Color.rgb(125, 190, 255));
+        tag.setTypeface(null, Typeface.BOLD);
+        banner.addView(tag);
+        TextView heading = text("ENTERTAINMENT.\nREIMAGINED.", 28, WHITE);
+        heading.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
+        heading.setPadding(0, 10, 0, 0);
         banner.addView(heading);
-
-        TextView subtitle = text("A world of stories awaits.", 16, Color.rgb(194, 218, 255));
-        subtitle.setPadding(0, 8, 0, 0);
+        TextView subtitle = text("Your next favourite story starts here.", 13, Color.rgb(205, 220, 245));
+        subtitle.setPadding(0, 8, 0, 16);
         banner.addView(subtitle);
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, 190);
-        params.bottomMargin = 2;
+        TextView explore = text("▶   EXPLORE NOW", 13, WHITE);
+        explore.setGravity(Gravity.CENTER);
+        explore.setTypeface(null, Typeface.BOLD);
+        explore.setPadding(18, 13, 18, 13);
+        explore.setBackground(shape(RED, 30));
+        LinearLayout.LayoutParams ep = new LinearLayout.LayoutParams(-2, -2);
+        banner.addView(explore, ep);
+        explore.setOnClickListener(v -> {
+            ScrollView sc = (ScrollView) root.getParent();
+            sc.smoothScrollTo(0, root.getHeight());
+        });
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, 245);
+        params.setMargins(0, 10, 0, 8);
         root.addView(banner, params);
     }
 
@@ -260,48 +274,71 @@ public class MainActivity extends Activity {
     }
 
     private void addMovieSection(String title, String category) {
-        TextView heading = text(title, 19, WHITE);
-        heading.setTypeface(null, Typeface.BOLD);
-        heading.setPadding(0, 20, 0, 10);
-        root.addView(heading);
-
-        LinearLayout row = new LinearLayout(this);
-        row.setOrientation(LinearLayout.HORIZONTAL);
-        int found = 0;
-
-        for (int i = 0; i < localMovies.length(); i++) {
-            JSONObject movie = localMovies.optJSONObject(i);
-            if (movie == null || !movie.optString("category", "Movies").equalsIgnoreCase(category)) continue;
-            String name = movie.optString("title", "Untitled");
-            String description = movie.optString("description", "No description available.");
-            String videoUrl = movie.optString("videoUrl", "");
-            addMovieCard(row, name, description, videoUrl);
-            found++;
+        LinearLayout titleRow = new LinearLayout(this);
+        titleRow.setGravity(Gravity.CENTER_VERTICAL);
+        titleRow.setOrientation(LinearLayout.HORIZONTAL);
+        TextView heading = text(title, 20, WHITE);
+        heading.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+        titleRow.addView(heading, new LinearLayout.LayoutParams(0, -2, 1));
+        TextView seeAll = text("SEE ALL  ›", 10, RED);
+        seeAll.setTypeface(null, Typeface.BOLD);
+        titleRow.addView(seeAll);
+        LinearLayout.LayoutParams hp = new LinearLayout.LayoutParams(-1, -2);
+        hp.setMargins(0, 22, 0, 12);
+        root.addView(titleRow, hp);
+        HorizontalScrollViewWrap:
+        {
+            android.widget.HorizontalScrollView horizontal = new android.widget.HorizontalScrollView(this);
+            horizontal.setHorizontalScrollBarEnabled(false);
+            LinearLayout row = new LinearLayout(this);
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            int found = 0;
+            for (int i = 0; i < localMovies.length(); i++) {
+                JSONObject movie = localMovies.optJSONObject(i);
+                if (movie == null || !movie.optString("category", "Movies").equalsIgnoreCase(category)) continue;
+                addMovieCard(row, movie.optString("title", "Untitled"),
+                        movie.optString("description", "No description available."),
+                        movie.optString("videoUrl", ""));
+                found++;
+            }
+            for (CloudMovie movie : cloudMovies) {
+                if (!movie.category.equalsIgnoreCase(category)) continue;
+                addMovieCard(row, movie.title, movie.description, movie.videoUrl);
+                found++;
+            }
+            if (found == 0) {
+                TextView empty = text("   ✦   Fresh titles coming soon", 13, MUTED);
+                empty.setPadding(12, 22, 12, 22);
+                row.addView(empty);
+            }
+            horizontal.addView(row);
+            root.addView(horizontal);
         }
-
-        for (CloudMovie movie : cloudMovies) {
-            if (!movie.category.equalsIgnoreCase(category)) continue;
-            addMovieCard(row, movie.title, movie.description, movie.videoUrl);
-            found++;
-        }
-
-        if (found == 0) {
-            TextView empty = text("No titles added yet", 13, MUTED);
-            empty.setPadding(2, 0, 0, 8);
-            row.addView(empty);
-        }
-        root.addView(row);
     }
 
     private void addMovieCard(LinearLayout row, String name, String description, String videoUrl) {
-        TextView card = text(name, 14, WHITE);
-        card.setGravity(Gravity.CENTER);
-        card.setTypeface(null, Typeface.BOLD);
-        card.setPadding(10, 10, 10, 10);
-        card.setBackground(shape(CARD, 12));
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(145, 120);
-        params.setMargins(0, 0, 8, 0);
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.VERTICAL);
+        card.setGravity(Gravity.BOTTOM);
+        card.setPadding(12, 12, 12, 12);
+        GradientDrawable poster = new GradientDrawable(GradientDrawable.Orientation.TL_BR,
+                new int[]{Color.rgb(28, 65, 116), Color.rgb(18, 31, 57), Color.rgb(7, 13, 27)});
+        poster.setCornerRadius(18);
+        poster.setStroke(1, Color.rgb(36, 63, 100));
+        card.setBackground(poster);
+        TextView badge = text("ABHI  •  PLAY", 9, Color.rgb(125, 190, 255));
+        badge.setTypeface(null, Typeface.BOLD);
+        card.addView(badge);
+        TextView title = text(name, 14, WHITE);
+        title.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+        title.setMaxLines(3);
+        title.setPadding(0, 8, 0, 0);
+        card.addView(title);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(148, 184);
+        params.setMargins(0, 0, 12, 0);
         row.addView(card, params);
+        card.setClickable(true);
+        card.setFocusable(true);
         card.setOnClickListener(v -> showDetails(name, description, videoUrl));
     }
 
@@ -348,27 +385,39 @@ public class MainActivity extends Activity {
 
     private void addNavigation() {
         View divider = new View(this);
-        divider.setBackgroundColor(CARD);
-        LinearLayout.LayoutParams dividerParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, 1);
-        dividerParams.setMargins(0, 28, 0, 12);
-        root.addView(divider, dividerParams);
-
+        divider.setBackgroundColor(Color.rgb(25, 43, 70));
+        LinearLayout.LayoutParams dp = new LinearLayout.LayoutParams(-1, 1);
+        dp.setMargins(0, 30, 0, 10);
+        root.addView(divider, dp);
         LinearLayout nav = new LinearLayout(this);
         nav.setOrientation(LinearLayout.HORIZONTAL);
         nav.setGravity(Gravity.CENTER);
-        String[] labels = {"HOME", "MOVIES", "SERIES", "MY LIST"};
-        for (String label : labels) {
-            TextView item = text(label, 10, WHITE);
+        nav.setPadding(4, 6, 4, 6);
+        nav.setBackground(shape(Color.rgb(10, 19, 36), 20));
+        String[][] tabs = {{"⌂", "HOME"}, {"▣", "MOVIES"}, {"▤", "SERIES"}, {"♡", "MY LIST"}, {"☆", "PROFILE"}};
+        for (String[] tab : tabs) {
+            LinearLayout item = new LinearLayout(this);
+            item.setOrientation(LinearLayout.VERTICAL);
             item.setGravity(Gravity.CENTER);
-            item.setPadding(4, 12, 4, 12);
-            nav.addView(item, new LinearLayout.LayoutParams(0, -2, 1));
+            TextView glyph = text(tab[0], 21, tab[1].equals("HOME") ? RED : MUTED);
+            glyph.setGravity(Gravity.CENTER);
+            TextView label = text(tab[1], 8, tab[1].equals("HOME") ? WHITE : MUTED);
+            label.setGravity(Gravity.CENTER);
+            label.setTypeface(null, Typeface.BOLD);
+            item.addView(glyph);
+            item.addView(label);
+            nav.addView(item, new LinearLayout.LayoutParams(0, 52, 1));
             item.setOnClickListener(v -> {
-                if (label.equals("HOME")) showHome();
+                if (tab[1].equals("HOME")) showHome();
+                else if (tab[1].equals("PROFILE")) openAdminEntry();
+                else if (tab[1].equals("MY LIST")) new AlertDialog.Builder(this)
+                        .setTitle("My List").setMessage("Your watchlist is ready for a future update.")
+                        .setPositiveButton("OK", null).show();
                 else {
-                    String target = label.equals("MY LIST") ? "My List" :
-                            label.equals("MOVIES") ? "Popular Movies" : "Web Series";
-                    Toast.makeText(this, target + " section", Toast.LENGTH_SHORT).show();
+                    String target = tab[1].equals("MOVIES") ? "Movies" : "Web Series";
+                    new AlertDialog.Builder(this).setTitle(target)
+                            .setMessage("Scroll the home screen to explore " + target + ".")
+                            .setPositiveButton("Explore", (d, w) -> showHome()).show();
                 }
             });
         }
