@@ -39,11 +39,11 @@ public class MainActivity extends Activity {
     private static final String ADMIN_UID = "7OqyZ4l0ySXw1IA9FbEKwAsIuRr1";
     private static final String[] CATEGORIES = {"Movies", "Web Series", "TV Shows", "Cartoons"};
 
-    private final int BG = Color.rgb(12, 12, 16);
-    private final int RED = Color.rgb(229, 9, 20);
+    private final int BG = Color.rgb(5, 10, 24);
+    private final int RED = Color.rgb(35, 126, 255);
     private final int WHITE = Color.WHITE;
-    private final int MUTED = Color.rgb(170, 170, 180);
-    private final int CARD = Color.rgb(38, 38, 46);
+    private final int MUTED = Color.rgb(157, 177, 207);
+    private final int CARD = Color.rgb(16, 29, 52);
 
     private LinearLayout root;
     private JSONArray localMovies;
@@ -152,11 +152,11 @@ public class MainActivity extends Activity {
 
         addHeader();
 
-        TextView tagline = text("YOUR ENTERTAINMENT. YOUR WORLD.", 10, MUTED);
+        TextView tagline = text("YOUR CINEMATIC UNIVERSE  •  ANYTIME", 10, MUTED);
         tagline.setPadding(0, 3, 0, 10);
         root.addView(tagline);
 
-        TextView adminEntry = text("🔐  ADMIN LOGIN  •  MANAGE TITLES", 14, WHITE);
+        TextView adminEntry = text("✦  ADMIN LOGIN  •  MANAGE TITLES", 14, WHITE);
         adminEntry.setGravity(Gravity.CENTER);
         adminEntry.setTypeface(null, Typeface.BOLD);
         adminEntry.setPadding(16, 16, 16, 16);
@@ -219,13 +219,13 @@ public class MainActivity extends Activity {
         banner.setOrientation(LinearLayout.VERTICAL);
         banner.setGravity(Gravity.CENTER_VERTICAL);
         banner.setPadding(18, 20, 18, 20);
-        banner.setBackground(shape(Color.rgb(57, 12, 22), 18));
+        banner.setBackground(shape(Color.rgb(10, 35, 79), 18));
 
-        TextView heading = text("ABHI TV ORIGINALS", 24, WHITE);
+        TextView heading = text("ABHI TV", 30, WHITE);
         heading.setTypeface(null, Typeface.BOLD);
         banner.addView(heading);
 
-        TextView subtitle = text("Entertainment starts here", 17, WHITE);
+        TextView subtitle = text("A world of stories awaits.", 16, Color.rgb(194, 218, 255));
         subtitle.setPadding(0, 8, 0, 0);
         banner.addView(subtitle);
 
