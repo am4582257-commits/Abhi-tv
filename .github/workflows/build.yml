@@ -1,9 +1,11 @@
+
 name: Build ABHI TV APK
 
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   build:
@@ -18,12 +20,11 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      -      - name: Set up Android SDK
+      - name: Set up Android SDK
         uses: android-actions/setup-android@v3
-        with:
-          accept-android-sdk-licenses: true
 
-
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses
 
       - name: Build APK
         run: gradle assembleDebug
@@ -33,3 +34,4 @@ jobs:
         with:
           name: ABHI-TV-debug-apk
           path: app/build/outputs/apk/debug/*.apk
+          
