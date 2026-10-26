@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "826252227506",
+    "project_id": "abhi-tv-royal",
+    "storage_bucket": "abhi-tv-royal.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826252227506:android:b78c8dac2a77c6a6c8aaab",
+        "android_client_info": {
+          "package_name": "com.abhitv.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWfXfLBST7RD7BNuz7v_qZpNGW42KMfIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
