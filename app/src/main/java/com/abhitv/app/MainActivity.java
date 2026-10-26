@@ -329,9 +329,21 @@ public class MainActivity extends Activity {
         play.setPadding(18, 16, 18, 16);
         root.addView(play);
 
-        play.setOnClickListener(v -> Toast.makeText(this,
-                videoUrl.trim().isEmpty() ? "Video link has not been added yet" :
-                        "Video player is not connected yet", Toast.LENGTH_LONG).show());
+        play.setOnClickListener(v -> {
+            String url = videoUrl == null ? "" : videoUrl.trim();
+            if (url.isEmpty()) {
+                Toast.makeText(this, "Admin Panel mein pehle video URL add karo", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (!(url.startsWith("https://") || url.startsWith("http://"))) {
+                Toast.makeText(this, "Valid http:// ya https:// video URL daalo", Toast.LENGTH_LONG).show();
+                return;
+            }
+            android.content.Intent intent = new android.content.Intent(this, PlayerActivity.class);
+            intent.putExtra(PlayerActivity.EXTRA_TITLE, title);
+            intent.putExtra(PlayerActivity.EXTRA_URL, url);
+            startActivity(intent);
+        });
     }
 
     private void addNavigation() {
