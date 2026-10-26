@@ -41,11 +41,11 @@ public class MainActivity extends Activity {
     private static final String ADMIN_UID = "7OqyZ4l0ySXw1IA9FbEKwAsIuRr1";
     private static final String[] CATEGORIES = {"Movies", "Web Series", "TV Shows", "Cartoons"};
 
-    private final int BG = Color.rgb(5, 10, 24);
-    private final int RED = Color.rgb(35, 126, 255);
-    private final int WHITE = Color.WHITE;
-    private final int MUTED = Color.rgb(157, 177, 207);
-    private final int CARD = Color.rgb(16, 29, 52);
+    private final int BG = Color.rgb(6, 8, 16);
+    private final int RED = Color.rgb(38, 132, 255);
+    private final int WHITE = Color.rgb(248, 249, 252);
+    private final int MUTED = Color.rgb(155, 164, 184);
+    private final int CARD = Color.rgb(20, 24, 38);
 
     private LinearLayout root;
     private JSONArray localMovies;
@@ -149,7 +149,7 @@ public class MainActivity extends Activity {
 
         root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setPadding(16, 12, 16, 24);
+        root.setPadding(16, 10, 16, 28);
         root.setBackgroundColor(BG);
         scroll.addView(root);
         setContentView(scroll);
@@ -159,13 +159,13 @@ public class MainActivity extends Activity {
         LinearLayout searchRow = new LinearLayout(this);
         searchRow.setOrientation(LinearLayout.HORIZONTAL);
         searchRow.setGravity(Gravity.CENTER_VERTICAL);
-        searchRow.setPadding(14, 0, 8, 0);
-        searchRow.setBackground(shape(Color.rgb(43, 48, 60), 14));
+        searchRow.setPadding(16, 0, 10, 0);
+        searchRow.setBackground(shape(Color.rgb(24, 28, 42), 16));
         EditText search = new EditText(this);
         search.setSingleLine(true);
         search.setTextColor(WHITE);
         search.setHintTextColor(Color.rgb(190, 194, 204));
-        search.setHint("⌕  Search movies, series...");
+        search.setHint("⌕   Search movies, series, sports...");
         search.setTextSize(15);
         search.setBackgroundColor(Color.TRANSPARENT);
         search.setPadding(0, 10, 0, 10);
@@ -203,15 +203,16 @@ public class MainActivity extends Activity {
         categoryScroll.setHorizontalScrollBarEnabled(false);
         LinearLayout categories = new LinearLayout(this);
         categories.setOrientation(LinearLayout.HORIZONTAL);
-        String[] chips = {"Football", "Trending", "Anime", "Cricket", "Movies", "Series", "TV Shows", "Cartoons"};
+        String[] chips = {"For You", "Trending", "Movies", "Series", "Football", "Cricket", "Anime", "TV Shows", "Cartoons"};
         for (int i = 0; i < chips.length; i++) {
             final String chip = chips[i];
-            TextView item = text(chip, 15, i == 1 ? WHITE : MUTED);
-            item.setTypeface(null, i == 1 ? Typeface.BOLD : Typeface.NORMAL);
-            item.setPadding(12, 10, 16, 10);
+            TextView item = text(chip, 14, (i == 0 || i == 1) ? WHITE : MUTED);
+            item.setTypeface(null, (i == 0 || i == 1) ? Typeface.BOLD : Typeface.NORMAL);
+            item.setPadding(14, 9, 14, 9);
+            if (i == 0 || i == 1) item.setBackground(shape(Color.rgb(29, 43, 66), 22));
             categories.addView(item);
             item.setOnClickListener(v -> {
-                String target = chip.equals("Series") ? "Web Series" : chip;
+                String target = chip.equals("Series") ? "Web Series" : chip.equals("For You") ? "Trending" : chip;
                 showCategoryScreen(target);
             });
         }
@@ -413,7 +414,7 @@ public class MainActivity extends Activity {
         title.setMaxLines(3);
         title.setPadding(0, 8, 0, 0);
         card.addView(title);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(148, 184);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(154, 224);
         params.setMargins(0, 0, 12, 0);
         row.addView(card, params);
         card.setClickable(true);
@@ -739,16 +740,16 @@ public class MainActivity extends Activity {
         header.setGravity(Gravity.CENTER_VERTICAL);
         header.setOrientation(LinearLayout.HORIZONTAL);
 
-        TextView logo = text("ABHI", 28, Color.rgb(44, 235, 158));
+        TextView logo = text("ABHI", 29, Color.rgb(49, 211, 174));
         logo.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
         header.addView(logo);
-        TextView tv = text(" TV", 28, WHITE);
+        TextView tv = text(" TV", 29, WHITE);
         tv.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
         header.addView(tv);
 
         View spacer = new View(this);
         header.addView(spacer, new LinearLayout.LayoutParams(0, 1, 1));
-        TextView profile = text("●", 18, WHITE);
+        TextView profile = text("◉", 19, WHITE);
         profile.setGravity(Gravity.CENTER);
         profile.setPadding(12, 8, 12, 8);
         profile.setBackground(shape(Color.rgb(38, 44, 56), 24));
@@ -766,14 +767,14 @@ public class MainActivity extends Activity {
                 new int[]{Color.rgb(75, 104, 118), Color.rgb(21, 54, 70), Color.rgb(5, 10, 20)});
         cinematic.setCornerRadius(22);
         banner.setBackground(cinematic);
-        TextView tag = text("✦  FEATURED ON ABHI TV", 11, Color.rgb(85, 240, 181));
+        TextView tag = text("✦  ABHI TV ORIGINALS  •  FEATURED", 11, Color.rgb(95, 245, 195));
         tag.setTypeface(null, Typeface.BOLD);
         banner.addView(tag);
         TextView heading = text("YOUR NEXT\nFAVOURITE STORY", 30, WHITE);
         heading.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
         heading.setPadding(0, 10, 0, 0);
         banner.addView(heading);
-        TextView subtitle = text("Movies • Series • Unlimited stories", 12, Color.rgb(222, 230, 238));
+        TextView subtitle = text("Blockbusters  •  Series  •  Live sports", 12, Color.rgb(222, 230, 238));
         subtitle.setPadding(0, 8, 0, 16);
         banner.addView(subtitle);
         TextView explore = text("▶   EXPLORE NOW", 13, Color.rgb(8, 25, 26));
