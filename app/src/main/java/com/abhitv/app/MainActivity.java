@@ -186,9 +186,15 @@ public class MainActivity extends Activity {
         View spacer = new View(this);
         header.addView(spacer, new LinearLayout.LayoutParams(0, 1, 1));
 
-        TextView profile = text("●", 22, WHITE);
+        TextView profile = text("ADMIN", 12, WHITE);
         profile.setGravity(Gravity.CENTER);
-        profile.setPadding(10, 8, 0, 8);
+        profile.setTypeface(null, Typeface.BOLD);
+        profile.setPadding(18, 14, 18, 14);
+        profile.setMinWidth(96);
+        profile.setMinHeight(48);
+        profile.setBackground(shape(RED, 14));
+        profile.setClickable(true);
+        profile.setFocusable(true);
         profile.setOnClickListener(v -> openAdminEntry());
         header.addView(profile);
         root.addView(header);
