@@ -1,0 +1,10 @@
+{
+  "movies": [],
+  "categories": [
+    "Movies",
+    "Web Series",
+    "TV Shows",
+    "Cartoons"
+  ],
+  "version": 1
+}
