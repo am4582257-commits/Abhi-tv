@@ -659,7 +659,7 @@ public class MainActivity extends Activity {
                                     "Delete failed: " + err.getLocalizedMessage(), Toast.LENGTH_LONG).show());
                 }).show();
     }
-}    private void addHeader() {
+    private void addHeader() {
         LinearLayout header = new LinearLayout(this);
         header.setGravity(Gravity.CENTER_VERTICAL);
         header.setOrientation(LinearLayout.HORIZONTAL);
