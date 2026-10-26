@@ -28,7 +28,9 @@ jobs:
         run: yes | sdkmanager --licenses
 
       - name: Build APK
-        run: gradle assembleDebug
+        run: gradle --stop || true
+      - name: Clean and build APK
+        run: gradle clean assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
