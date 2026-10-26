@@ -1114,27 +1114,4 @@ public class MainActivity extends Activity {
                                     "Delete failed: " + err.getLocalizedMessage(), Toast.LENGTH_LONG).show());
                 }).show();
     }
-}    private void addHeader() {
-        LinearLayout header = new LinearLayout(this);
-        header.setGravity(Gravity.CENTER_VERTICAL);
-        header.setOrientation(LinearLayout.HORIZONTAL);
-
-        TextView logo = text("ABHI", 28, Color.rgb(44, 235, 158));
-        logo.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
-        header.addView(logo);
-        TextView tv = text(" TV", 28, WHITE);
-        tv.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
-        header.addView(tv);
-
-        View spacer = new View(this);
-        header.addView(spacer, new LinearLayout.LayoutParams(0, 1, 1));
-        TextView profile = text("●", 18, WHITE);
-        profile.setGravity(Gravity.CENTER);
-        profile.setPadding(12, 8, 12, 8);
-        profile.setBackground(shape(Color.rgb(38, 44, 56), 24));
-        profile.setOnClickListener(v -> openAdminEntry());
-        header.addView(profile);
-        root.addView(header);
-    }
-
-
+}
