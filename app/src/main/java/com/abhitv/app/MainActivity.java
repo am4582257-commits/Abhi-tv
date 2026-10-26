@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.ImageView;
+import android.graphics.BitmapFactory;
 import android.widget.Toast;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -54,13 +56,14 @@ public class MainActivity extends Activity {
     private boolean showingDetails = false;
 
     private static class CloudMovie {
-        String id, title, description, videoUrl, category;
-        CloudMovie(String id, String title, String description, String videoUrl, String category) {
+        String id, title, description, videoUrl, category, posterUrl;
+        CloudMovie(String id, String title, String description, String videoUrl, String category, String posterUrl) {
             this.id = id;
             this.title = title;
             this.description = description;
             this.videoUrl = videoUrl;
             this.category = category;
+            this.posterUrl = posterUrl;
         }
     }
 
@@ -129,7 +132,8 @@ public class MainActivity extends Activity {
                             doc.getString("title") == null ? "Untitled" : doc.getString("title"),
                             doc.getString("description") == null ? "" : doc.getString("description"),
                             doc.getString("videoUrl") == null ? "" : doc.getString("videoUrl"),
-                            doc.getString("category") == null ? "Movies" : doc.getString("category")
+                            doc.getString("category") == null ? "Movies" : doc.getString("category"),
+                            doc.getString("posterUrl") == null ? "" : doc.getString("posterUrl")
                     ));
                 }
             }
@@ -199,7 +203,7 @@ public class MainActivity extends Activity {
         categoryScroll.setHorizontalScrollBarEnabled(false);
         LinearLayout categories = new LinearLayout(this);
         categories.setOrientation(LinearLayout.HORIZONTAL);
-        String[] chips = {"Football", "Trending", "Anime", "Cricket", "Movies", "Series"};
+        String[] chips = {"Football", "Trending", "Anime", "Cricket", "Movies", "Series", "TV Shows", "Cartoons"};
         for (int i = 0; i < chips.length; i++) {
             final String chip = chips[i];
             TextView item = text(chip, 15, i == 1 ? WHITE : MUTED);
@@ -207,9 +211,8 @@ public class MainActivity extends Activity {
             item.setPadding(12, 10, 16, 10);
             categories.addView(item);
             item.setOnClickListener(v -> {
-                String target = chip.equals("Series") ? "Web Series" : "Movies";
-                Toast.makeText(this, chip + " selected", Toast.LENGTH_SHORT).show();
-                if (chip.equals("Movies") || chip.equals("Trending")) showHome();
+                String target = chip.equals("Series") ? "Web Series" : chip;
+                showCategoryScreen(target);
             });
         }
         categoryScroll.addView(categories);
@@ -309,12 +312,12 @@ public class MainActivity extends Activity {
                 if (movie == null || !movie.optString("category", "Movies").equalsIgnoreCase(category)) continue;
                 addMovieCard(row, movie.optString("title", "Untitled"),
                         movie.optString("description", "No description available."),
-                        movie.optString("videoUrl", ""));
+                        movie.optString("videoUrl", ""), movie.optString("posterUrl", ""));
                 found++;
             }
             for (CloudMovie movie : cloudMovies) {
                 if (!movie.category.equalsIgnoreCase(category)) continue;
-                addMovieCard(row, movie.title, movie.description, movie.videoUrl);
+                addMovieCard(row, movie.title, movie.description, movie.videoUrl, movie.posterUrl);
                 found++;
             }
             if (found == 0) {
@@ -327,7 +330,54 @@ public class MainActivity extends Activity {
         }
     }
 
-    private void addMovieCard(LinearLayout row, String name, String description, String videoUrl) {
+    private void showCategoryScreen(String category) {
+        showingDetails = false;
+        root.removeAllViews();
+        TextView back = text("←  Back to Home", 16, WHITE);
+        back.setPadding(0, 12, 0, 20);
+        back.setOnClickListener(v -> showHome());
+        root.addView(back);
+        TextView heading = text(category + " on ABHI TV", 24, WHITE);
+        heading.setTypeface(null, Typeface.BOLD);
+        root.addView(heading);
+        android.widget.ScrollView list = new android.widget.ScrollView(this);
+        LinearLayout rows = new LinearLayout(this);
+        rows.setOrientation(LinearLayout.VERTICAL);
+        int count = 0;
+        for (int i = 0; i < localMovies.length(); i++) {
+            JSONObject m = localMovies.optJSONObject(i);
+            if (m == null) continue;
+            String cat = m.optString("category", "Movies");
+            if (category.equalsIgnoreCase("Trending") || category.equalsIgnoreCase("Football")
+                    || category.equalsIgnoreCase("Anime") || category.equalsIgnoreCase("Cricket")
+                    || category.equalsIgnoreCase("Movies") && cat.equalsIgnoreCase("Movies")
+                    || category.equalsIgnoreCase("Series") && cat.equalsIgnoreCase("Web Series")
+                    || category.equalsIgnoreCase("TV Shows") && cat.equalsIgnoreCase("TV Shows")
+                    || category.equalsIgnoreCase("Cartoons") && cat.equalsIgnoreCase("Cartoons")) {
+                addMovieCard(rows, m.optString("title", "Untitled"), m.optString("description", ""),
+                        m.optString("videoUrl", ""), m.optString("posterUrl", ""));
+                count++;
+            }
+        }
+        for (CloudMovie m : cloudMovies) {
+            boolean match = category.equalsIgnoreCase("Trending") || category.equalsIgnoreCase("Football")
+                    || category.equalsIgnoreCase("Anime") || category.equalsIgnoreCase("Cricket")
+                    || category.equalsIgnoreCase("Movies") && m.category.equalsIgnoreCase("Movies")
+                    || category.equalsIgnoreCase("Series") && m.category.equalsIgnoreCase("Web Series")
+                    || category.equalsIgnoreCase("TV Shows") && m.category.equalsIgnoreCase("TV Shows")
+                    || category.equalsIgnoreCase("Cartoons") && m.category.equalsIgnoreCase("Cartoons");
+            if (match) { addMovieCard(rows, m.title, m.description, m.videoUrl, m.posterUrl); count++; }
+        }
+        if (count == 0) {
+            TextView empty = text("Titles yahan dikhane ke liye Admin Panel se content add karo. Poster URL dene par image bhi dikhegi.", 15, MUTED);
+            empty.setPadding(4, 24, 4, 24);
+            rows.addView(empty);
+        }
+        list.addView(rows);
+        root.addView(list, new LinearLayout.LayoutParams(-1, 0, 1));
+    }
+
+    private void addMovieCard(LinearLayout row, String name, String description, String videoUrl, String posterUrl) {
         LinearLayout card = new LinearLayout(this);
         card.setOrientation(LinearLayout.VERTICAL);
         card.setGravity(Gravity.BOTTOM);
@@ -337,7 +387,25 @@ public class MainActivity extends Activity {
         poster.setCornerRadius(18);
         poster.setStroke(1, Color.rgb(36, 63, 100));
         card.setBackground(poster);
-        TextView badge = text("ABHI  •  PLAY", 9, Color.rgb(125, 190, 255));
+        if (posterUrl != null && (posterUrl.startsWith("https://") || posterUrl.startsWith("http://"))) {
+            ImageView artwork = new ImageView(this);
+            artwork.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            LinearLayout.LayoutParams artParams = new LinearLayout.LayoutParams(-1, 112);
+            artParams.bottomMargin = 8;
+            card.addView(artwork, 0, artParams);
+            final String imageUrl = posterUrl;
+            java.util.concurrent.Executors.newSingleThreadExecutor().execute(() -> {
+                try {
+                    java.net.HttpURLConnection connection = (java.net.HttpURLConnection) new java.net.URL(imageUrl).openConnection();
+                    connection.setConnectTimeout(5000); connection.setReadTimeout(5000);
+                    connection.setDoInput(true); connection.connect();
+                    android.graphics.Bitmap bitmap = BitmapFactory.decodeStream(connection.getInputStream());
+                    connection.disconnect();
+                    if (bitmap != null) runOnUiThread(() -> artwork.setImageBitmap(bitmap));
+                } catch (Exception ignored) { }
+            });
+        }
+        TextView badge = text("✦  ABHI TV", 9, Color.rgb(125, 230, 190));
         badge.setTypeface(null, Typeface.BOLD);
         card.addView(badge);
         TextView title = text(name, 14, WHITE);
@@ -545,17 +613,23 @@ public class MainActivity extends Activity {
         url.setHint("Video URL (optional)");
         url.setSingleLine(true);
         url.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
+        EditText posterUrl = new EditText(this);
+        posterUrl.setHint("Poster image URL (optional)");
+        posterUrl.setSingleLine(true);
+        posterUrl.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
         Spinner category = new Spinner(this);
         category.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, CATEGORIES));
         form.addView(title);
         form.addView(description);
         form.addView(url);
+        form.addView(posterUrl);
         form.addView(category);
 
         if (existing != null) {
             title.setText(existing.title);
             description.setText(existing.description);
             url.setText(existing.videoUrl);
+            posterUrl.setText(existing.posterUrl);
             for (int i = 0; i < CATEGORIES.length; i++) {
                 if (CATEGORIES[i].equalsIgnoreCase(existing.category)) category.setSelection(i);
             }
@@ -577,6 +651,7 @@ public class MainActivity extends Activity {
             data.put("title", t);
             data.put("description", description.getText().toString().trim());
             data.put("videoUrl", url.getText().toString().trim());
+            data.put("posterUrl", posterUrl.getText().toString().trim());
             data.put("category", CATEGORIES[category.getSelectedItemPosition()]);
             data.put("updatedAt", System.currentTimeMillis());
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
