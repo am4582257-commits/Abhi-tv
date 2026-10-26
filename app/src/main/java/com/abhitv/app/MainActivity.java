@@ -405,9 +405,23 @@ public class MainActivity extends Activity {
                 } else {
                     auth.signOut();
                     dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-                    Toast.makeText(this, task.isSuccessful() ?
-                            "Is account ko admin permission nahi hai" :
-                            "Login failed: email/password check karo", Toast.LENGTH_LONG).show();
+                    if (task.isSuccessful()) {
+                        new AlertDialog.Builder(this)
+                                .setTitle("Admin permission nahi hai")
+                                .setMessage("Firebase login successful hai, lekin is account ki UID app ke Admin UID se match nahi karti.")
+                                .setPositiveButton("OK", null)
+                                .show();
+                    } else {
+                        Exception error = task.getException();
+                        String detail = error == null ? "Unknown Firebase Authentication error" :
+                                error.getClass().getSimpleName() + "\\n" +
+                                (error.getLocalizedMessage() == null ? "No additional details" : error.getLocalizedMessage());
+                        new AlertDialog.Builder(this)
+                                .setTitle("Firebase Login Failed")
+                                .setMessage(detail + "\\n\\nFirebase Console mein ABHI-TV-ROYAL project ka Authentication > Users aur Email/Password provider check karo.")
+                                .setPositiveButton("OK", null)
+                                .show();
+                    }
                 }
             });
         }));
