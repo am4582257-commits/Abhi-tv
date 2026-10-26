@@ -153,8 +153,22 @@ public class MainActivity extends Activity {
         addHeader();
 
         TextView tagline = text("YOUR ENTERTAINMENT. YOUR WORLD.", 10, MUTED);
-        tagline.setPadding(0, 3, 0, 20);
+        tagline.setPadding(0, 3, 0, 10);
         root.addView(tagline);
+
+        TextView adminEntry = text("🔐  ADMIN LOGIN  •  MANAGE TITLES", 14, WHITE);
+        adminEntry.setGravity(Gravity.CENTER);
+        adminEntry.setTypeface(null, Typeface.BOLD);
+        adminEntry.setPadding(16, 16, 16, 16);
+        adminEntry.setBackground(shape(RED, 14));
+        LinearLayout.LayoutParams adminParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        adminParams.bottomMargin = 16;
+        root.addView(adminEntry, adminParams);
+        adminEntry.setOnClickListener(v -> {
+            Toast.makeText(this, "Admin login opening...", Toast.LENGTH_SHORT).show();
+            openAdminEntry();
+        });
 
         addFeatured();
 
