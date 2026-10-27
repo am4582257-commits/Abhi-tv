@@ -1,0 +1,61 @@
+name: Build ABHI TV Play Store AAB
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-aab:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
+
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses
+
+      - name: Build release App Bundle
+        run: gradle clean bundleRelease --no-daemon --stacktrace
+
+      - name: Sign and verify AAB with permanent release key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ABHI_TV_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ABHI_TV_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ABHI_TV_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ABHI_TV_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          test -n "$KEYSTORE_BASE64"
+          test -n "$KEYSTORE_PASSWORD"
+          test -n "$KEY_ALIAS"
+          test -n "$KEY_PASSWORD"
+          KS="$RUNNER_TEMP/abhi-tv-release.jks"
+          AAB="app/build/outputs/bundle/release/app-release.aab"
+          SIGNED="$RUNNER_TEMP/abhi-tv-release-signed.aab"
+          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$KS"
+          keytool -list -storetype PKCS12 -keystore "$KS" -storepass "$KEYSTORE_PASSWORD" -alias "$KEY_ALIAS" >/dev/null
+          jarsigner -verbose -keystore "$KS" -storetype PKCS12 -storepass:env KEYSTORE_PASSWORD -keypass:env KEY_PASSWORD -signedjar "$SIGNED" "$AAB" "$KEY_ALIAS"
+          jarsigner -verify -verbose -certs "$SIGNED"
+          mkdir -p app/build/outputs/bundle/release
+          cp "$SIGNED" app/build/outputs/bundle/release/ABHI-TV-release.aab
+          rm -f "$KS" "$SIGNED"
+
+      - name: Upload signed Play Store AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: ABHI-TV-Play-Store-AAB
+          path: app/build/outputs/bundle/release/ABHI-TV-release.aab
+          if-no-files-found: error
