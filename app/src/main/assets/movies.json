@@ -1,13 +1,13 @@
 {
   "movies": [
-    {"title":"Big Buck Bunny — Full Movie","description":"Blender Foundation open movie; direct MP4 full-film source.","videoUrl":"https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4","category":"Animated","posterUrl":""},
-    {"title":"Sintel — Full Movie","description":"Blender Foundation open movie; direct MP4 full-film source.","videoUrl":"https://download.blender.org/durian/movies/Sintel.2010.720p.mp4","category":"Animated","posterUrl":""},
-    {"title":"Tears of Steel — Open Movie","description":"Blender Foundation open movie; direct MOV source. Device codec support may vary.","videoUrl":"https://download.blender.org/demo/movies/ToS/tears_of_steel_720p.mov","category":"Sci-Fi","posterUrl":""},
-    {"title":"Big Buck Bunny — Trailer","description":"Short preview clip, not the full movie.","videoUrl":"https://media.w3.org/2010/05/bunny/trailer.mp4","category":"Animated","posterUrl":""},
-    {"title":"Sintel — Trailer","description":"Short preview clip, not the full movie.","videoUrl":"https://media.w3.org/2010/05/sintel/trailer.mp4","category":"Animated","posterUrl":""},
-    {"title":"MP4 Sample Clip","description":"Playback compatibility sample, not a movie.","videoUrl":"https://media.w3.org/2010/05/video/movie_300.mp4","category":"Movies","posterUrl":""},
-    {"title":"Video Playback Test (HLS)","description":"HLS test stream for checking player support; not a movie.","videoUrl":"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8","category":"Movies","posterUrl":""}
+    {"title":"Big Buck Bunny","description":"Open-license animated feature; direct MP4 source.","videoUrl":"https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4","category":"Animated","language":"English","kind":"Full movie","posterUrl":""},
+    {"title":"Sintel","description":"Open-license animated fantasy film; direct MP4 source.","videoUrl":"https://download.blender.org/durian/movies/Sintel.2010.720p.mp4","category":"Animated","language":"English","kind":"Full movie","posterUrl":""},
+    {"title":"Tears of Steel","description":"Blender Foundation open movie; MOV source, device codec support may vary.","videoUrl":"https://download.blender.org/demo/movies/ToS/tears_of_steel_720p.mov","category":"Sci-Fi","language":"English","kind":"Open movie","posterUrl":""},
+    {"title":"Big Buck Bunny — Trailer","description":"Preview only, not a full movie.","videoUrl":"https://media.w3.org/2010/05/bunny/trailer.mp4","category":"Animated","language":"English","kind":"Trailer","posterUrl":""},
+    {"title":"Sintel — Trailer","description":"Preview only, not a full movie.","videoUrl":"https://media.w3.org/2010/05/sintel/trailer.mp4","category":"Animated","language":"English","kind":"Trailer","posterUrl":""},
+    {"title":"MP4 Sample Clip","description":"Player compatibility sample, not a movie.","videoUrl":"https://media.w3.org/2010/05/video/movie_300.mp4","category":"Movies","language":"Test","kind":"Sample","posterUrl":""},
+    {"title":"HLS Playback Test","description":"Test stream only, not a movie.","videoUrl":"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8","category":"Movies","language":"Test","kind":"Sample","posterUrl":""}
   ],
-  "categories": ["All","Movies","Action","Comedy","Horror","Thriller","Sci-Fi","Animated","South Indian","Bollywood","Hollywood","Romance","Web Series","TV Shows"],
-  "version": 16
+  "categories": ["For You","Trending","All","Top Movies","Cinema","New Bengali","Bollywood","Hollywood","South Indian","Anime","Cartoons","Action","Comedy","Horror","Thriller","Romance","Sci-Fi","Web Series","TV Series","TV Shows"],
+  "version": 17
 }
