@@ -1,10 +1,18 @@
 {
-  "movies": [],
+  "movies": [
+    {
+      "title": "Big Buck Bunny",
+      "description": "Free animated short film from the Blender Open Movie project. This is a public sample MP4 stream; playback has not been tested inside the ABHI TV app yet.",
+      "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "category": "Cartoons",
+      "posterUrl": ""
+    }
+  ],
   "categories": [
     "Movies",
     "Web Series",
     "TV Shows",
     "Cartoons"
   ],
-  "version": 1
+  "version": 2
 }
