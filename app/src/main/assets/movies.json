@@ -48,6 +48,20 @@
       "videoUrl": "https://media.w3.org/2010/05/video/movie_300.mp4",
       "category": "Movies",
       "posterUrl": ""
+    },
+    {
+      "title": "Elephants Dream (Open Movie)",
+      "description": "Blender Foundation open movie. Direct MP4 source; playback should be checked on device.",
+      "videoUrl": "https://download.blender.org/ED/ED_HD.mp4",
+      "category": "Animated",
+      "posterUrl": ""
+    },
+    {
+      "title": "Cosmos Laundromat (Open Movie)",
+      "description": "Blender Foundation open movie. Direct MP4 source; playback should be checked on device.",
+      "videoUrl": "https://download.blender.org/demo/movies/Cosmos_Laundromat/Cosmos_Laundromat.mp4",
+      "category": "Sci-Fi",
+      "posterUrl": ""
     }
   ],
   "categories": [
@@ -66,5 +80,5 @@
     "Web Series",
     "TV Shows"
   ],
-  "version": 15
+  "version": 16
 }
