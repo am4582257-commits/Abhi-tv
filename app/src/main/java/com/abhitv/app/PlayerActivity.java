@@ -75,6 +75,9 @@ public class PlayerActivity extends Activity {
         String lower = url.toLowerCase(java.util.Locale.ROOT);
         if (lower.contains(".m3u8")) {
             itemBuilder.setMimeType(MimeTypes.APPLICATION_M3U8);
+        } else if (lower.contains(".mp4")) {
+            // Declare MP4 explicitly when a host sends a generic or missing Content-Type.
+            itemBuilder.setMimeType(MimeTypes.VIDEO_MP4);
         }
         if (title != null && !title.trim().isEmpty()) {
             playerView.setContentDescription(title);
