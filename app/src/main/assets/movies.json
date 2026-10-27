@@ -4,29 +4,39 @@
       "title": "Big Buck Bunny (Trailer)",
       "description": "Public MP4 trailer clip for playback. Trailer only, not the full movie.",
       "videoUrl": "https://media.w3.org/2010/05/bunny/trailer.mp4",
-      "category": "Cartoons",
+      "category": "Animated",
       "posterUrl": ""
     },
     {
       "title": "Sintel (Trailer)",
-      "description": "Public MP4 trailer clip; confirmed by user to play.",
+      "description": "Public MP4 trailer clip; confirmed by user to play. Trailer only, not the full movie.",
       "videoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
-      "category": "Cartoons",
+      "category": "Animated",
       "posterUrl": ""
     },
     {
       "title": "MP4 Sample Clip",
-      "description": "Public MP4 sample clip to test playback compatibility; not Elephants Dream.",
+      "description": "Public MP4 sample clip to test playback compatibility; not a full movie.",
       "videoUrl": "https://media.w3.org/2010/05/video/movie_300.mp4",
       "category": "Movies",
       "posterUrl": ""
     }
   ],
   "categories": [
+    "All",
     "Movies",
+    "Action",
+    "Comedy",
+    "Horror",
+    "Thriller",
+    "Sci-Fi",
+    "Animated",
+    "South Indian",
+    "Bollywood",
+    "Hollywood",
+    "Romance",
     "Web Series",
-    "TV Shows",
-    "Cartoons"
+    "TV Shows"
   ],
-  "version": 11
+  "version": 12
 }
