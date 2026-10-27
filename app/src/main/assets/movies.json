@@ -2,24 +2,24 @@
   "movies": [
     {
       "title": "Big Buck Bunny",
-      "description": "Free open animated film from the Blender Open Movie project. Uses the tested Google public MP4 sample source for reliable playback testing.",
+      "description": "Blender Foundation open movie. Public MP4 sample stream for playback testing.",
       "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
       "category": "Cartoons",
       "posterUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"
     },
     {
-      "title": "Elephants Dream (MP4 Test)",
-      "description": "Public MP4 playback test title. Using the known working Google sample stream until the original source can be verified.",
-      "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "title": "For Bigger Joyrides",
+      "description": "Public sample MP4 video used to test independent playback and duration metadata.",
+      "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
       "category": "Movies",
-      "posterUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg"
+      "posterUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerJoyrides.jpg"
     },
     {
-      "title": "Sintel (MP4 Test)",
-      "description": "Public MP4 playback test title. Using the known working Google sample stream to keep duration and seeking functional.",
-      "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "title": "For Bigger Fun",
+      "description": "Public sample MP4 video used to test independent playback and duration metadata.",
+      "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
       "category": "Cartoons",
-      "posterUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/Sintel.jpg"
+      "posterUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerFun.jpg"
     }
   ],
   "categories": [
@@ -28,5 +28,5 @@
     "TV Shows",
     "Cartoons"
   ],
-  "version": 6
+  "version": 7
 }
