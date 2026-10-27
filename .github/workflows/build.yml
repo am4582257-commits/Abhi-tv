@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      ABHI_SIGNING_CONFIGURED: ${{ secrets.ABHI_TV_KEYSTORE_BASE64 != '' && secrets.ABHI_TV_KEYSTORE_PASSWORD != '' && secrets.ABHI_TV_KEY_ALIAS != '' && secrets.ABHI_TV_KEY_PASSWORD != '' }}
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -34,7 +36,7 @@ jobs:
       # Configure these four repository Actions secrets to keep one signing
       # identity across builds. Never commit the keystore or its passwords.
       - name: Sign APK with permanent release key
-        if: ${{ secrets.ABHI_TV_KEYSTORE_BASE64 != '' && secrets.ABHI_TV_KEYSTORE_PASSWORD != '' && secrets.ABHI_TV_KEY_ALIAS != '' && secrets.ABHI_TV_KEY_PASSWORD != '' }}
+        if: ${{ env.ABHI_SIGNING_CONFIGURED == 'true' }}
         env:
           KEYSTORE_BASE64: ${{ secrets.ABHI_TV_KEYSTORE_BASE64 }}
           KEYSTORE_PASSWORD: ${{ secrets.ABHI_TV_KEYSTORE_PASSWORD }}
