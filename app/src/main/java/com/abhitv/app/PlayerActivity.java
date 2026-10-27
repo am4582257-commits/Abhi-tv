@@ -2,6 +2,8 @@ package com.abhitv.app;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.View;
@@ -28,6 +30,8 @@ public class PlayerActivity extends Activity {
     private ExoPlayer player;
     private PlayerView playerView;
     private TextView durationStatus;
+    private final Handler playerHandler = new Handler(Looper.getMainLooper());
+    private Runnable loadingTimeout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +143,11 @@ public class PlayerActivity extends Activity {
             @Override
             public void onPlaybackStateChanged(int playbackState) {
                 updateDurationStatus();
+                if (playbackState == Player.STATE_READY || playbackState == Player.STATE_ENDED) {
+                    cancelLoadingTimeout();
+                } else if (playbackState == Player.STATE_BUFFERING) {
+                    startLoadingTimeout();
+                }
             }
 
             @Override
@@ -158,6 +167,7 @@ public class PlayerActivity extends Activity {
                 if (cause != null && cause.getMessage() != null && !cause.getMessage().trim().isEmpty()) {
                     detail += ": " + cause.getMessage();
                 }
+                cancelLoadingTimeout();
                 durationStatus.setText("Playback failed: " + detail);
                 android.util.Log.e("ABHI-TV-PLAYER", "Playback failed for URL: " + url, error);
                 Toast.makeText(PlayerActivity.this,
@@ -168,6 +178,7 @@ public class PlayerActivity extends Activity {
         player.setMediaItem(itemBuilder.build());
         player.prepare();
         player.play();
+        startLoadingTimeout();
     }
 
     private String extractYouTubeId(String value) {
@@ -191,6 +202,28 @@ public class PlayerActivity extends Activity {
             if (id != null && id.matches("[A-Za-z0-9_-]{11}")) return id;
         } catch (Exception ignored) { }
         return null;
+    }
+
+    private void startLoadingTimeout() {
+        cancelLoadingTimeout();
+        loadingTimeout = () -> {
+            if (player != null && player.getPlaybackState() != Player.STATE_READY
+                    && player.getPlaybackState() != Player.STATE_ENDED) {
+                if (durationStatus != null) {
+                    durationStatus.setText("Video load nahi hui. Direct MP4/HLS URL check karein.");
+                }
+                Toast.makeText(this, "Video load nahi hui. Link direct ya accessible nahi ho sakta.",
+                        Toast.LENGTH_LONG).show();
+            }
+        };
+        playerHandler.postDelayed(loadingTimeout, 20000);
+    }
+
+    private void cancelLoadingTimeout() {
+        if (loadingTimeout != null) {
+            playerHandler.removeCallbacks(loadingTimeout);
+            loadingTimeout = null;
+        }
     }
 
     private void updateDurationStatus() {
@@ -220,6 +253,7 @@ public class PlayerActivity extends Activity {
     }
 
     private void releasePlayer() {
+        cancelLoadingTimeout();
         if (player != null) {
             if (playerView != null) playerView.setPlayer(null);
             player.release();
