@@ -3,21 +3,21 @@
     {
       "title": "Big Buck Bunny",
       "description": "Blender Foundation open animated movie.",
-      "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "videoUrl": "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
       "category": "Cartoons",
-      "posterUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"
+      "posterUrl": "https://download.blender.org/peach/bigbuckbunny_movies/poster.jpg"
     },
     {
       "title": "Elephants Dream",
-      "description": "Blender Foundation open movie. Original direct MP4 source restored.",
+      "description": "Blender Foundation open movie.",
       "videoUrl": "https://download.blender.org/ED/ED_1024.mp4",
       "category": "Movies",
       "posterUrl": ""
     },
     {
       "title": "Sintel",
-      "description": "Blender Foundation open movie. Original title restored; using a known public MP4 stream until a verified Sintel source is configured.",
-      "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "description": "Blender Foundation open movie.",
+      "videoUrl": "https://download.blender.org/durian/movies/sintel-1024-surround.mp4",
       "category": "Cartoons",
       "posterUrl": ""
     }
@@ -28,5 +28,5 @@
     "TV Shows",
     "Cartoons"
   ],
-  "version": 8
+  "version": 9
 }
