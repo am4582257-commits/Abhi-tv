@@ -132,9 +132,15 @@ public class PlayerActivity extends Activity {
 
             @Override
             public void onPlayerError(PlaybackException error) {
-                durationStatus.setText("Duration unavailable");
+                String detail = error.errorCodeName == null ? "Playback error" : error.errorCodeName;
+                Throwable cause = error.getCause();
+                if (cause != null && cause.getMessage() != null && !cause.getMessage().trim().isEmpty()) {
+                    detail += ": " + cause.getMessage();
+                }
+                durationStatus.setText("Playback failed: " + detail);
+                android.util.Log.e("ABHI-TV-PLAYER", "Playback failed for URL: " + url, error);
                 Toast.makeText(PlayerActivity.this,
-                        "Video play nahi hua. Link/format ya server access check karo.",
+                        "Video error: " + detail,
                         Toast.LENGTH_LONG).show();
             }
         });
