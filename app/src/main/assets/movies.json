@@ -1,22 +1,15 @@
 {
   "movies": [
     {
-      "title": "Big Buck Bunny (Full Movie)",
-      "description": "Full open-licensed animated film from the Blender Open Movie project.",
-      "videoUrl": "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
-      "category": "Animated",
-      "posterUrl": ""
-    },
-    {
-      "title": "Sintel (Full Movie)",
-      "description": "Full open-licensed animated film from the Blender Open Movie project.",
-      "videoUrl": "https://download.blender.org/durian/movies/Sintel.2010.720p.mp4",
-      "category": "Animated",
+      "title": "Video Playback Test (HLS)",
+      "description": "Known public HLS test stream to verify playback. This is a test stream, not a full movie.",
+      "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "category": "Movies",
       "posterUrl": ""
     },
     {
       "title": "Big Buck Bunny (Trailer)",
-      "description": "Public MP4 trailer clip for playback. Trailer only, not the full movie.",
+      "description": "Public MP4 trailer clip; trailer only, not the full movie.",
       "videoUrl": "https://media.w3.org/2010/05/bunny/trailer.mp4",
       "category": "Animated",
       "posterUrl": ""
@@ -52,5 +45,5 @@
     "Web Series",
     "TV Shows"
   ],
-  "version": 13
+  "version": 14
 }
