@@ -39,7 +39,7 @@ import java.util.Map;
 public class MainActivity extends Activity {
 
     private static final String ADMIN_UID = "7OqyZ4l0ySXw1IA9FbEKwAsIuRr1";
-    private static final String[] CATEGORIES = {"Movies", "Web Series", "TV Shows", "Cartoons"};
+    private static final String[] CATEGORIES = {"Movies", "Bollywood", "Hollywood", "South Indian", "Bengali", "Punjabi", "Marathi", "Tamil", "Telugu", "Malayalam", "Kannada", "Web Series", "TV Series", "TV Shows", "Anime", "Cartoons", "Action", "Comedy", "Horror", "Thriller", "Romance", "Sci-Fi", "Documentary", "Kids", "Sports", "Live TV"};
 
     private final int BG = Color.rgb(6, 8, 16);
     private final int RED = Color.rgb(38, 132, 255);
@@ -226,7 +226,7 @@ public class MainActivity extends Activity {
         categoryScroll.setHorizontalScrollBarEnabled(false);
         LinearLayout categories = new LinearLayout(this);
         categories.setOrientation(LinearLayout.HORIZONTAL);
-        String[] chips = {"For You", "Trending", "All", "Bollywood", "South Indian", "Hollywood", "Series", "Anime", "Cartoons", "Action", "Comedy", "Horror", "Sci-Fi"};
+        String[] chips = {"For You", "Trending", "All", "Bollywood", "Hollywood", "South Indian", "Bengali", "Punjabi", "Tamil", "Telugu", "Malayalam", "Kannada", "Series", "TV Shows", "Anime", "Cartoons", "Action", "Comedy", "Horror", "Thriller", "Romance", "Sci-Fi", "Documentary", "Kids", "Sports", "Live TV"};
         for (int i = 0; i < chips.length; i++) {
             final String chip = chips[i];
             TextView item = text(chip, 14, (i == 0 || i == 1) ? WHITE : MUTED);
