@@ -20,13 +20,6 @@
       "videoUrl": "https://download.blender.org/durian/movies/sintel-1024-surround.mp4",
       "category": "Cartoons",
       "posterUrl": ""
-    },
-    {
-      "title": "Tears of Steel",
-      "description": "Free open science-fiction short film from the Blender Foundation. Direct MP4 stream; playback in ABHI TV has not yet been tested.",
-      "videoUrl": "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
-      "category": "Movies",
-      "posterUrl": ""
     }
   ],
   "categories": [
@@ -35,5 +28,5 @@
     "TV Shows",
     "Cartoons"
   ],
-  "version": 3
+  "version": 4
 }
