@@ -226,7 +226,7 @@ public class MainActivity extends Activity {
         categoryScroll.setHorizontalScrollBarEnabled(false);
         LinearLayout categories = new LinearLayout(this);
         categories.setOrientation(LinearLayout.HORIZONTAL);
-        String[] chips = {"For You", "Trending", "Movies", "Series", "Football", "Cricket", "Anime", "TV Shows", "Cartoons"};
+        String[] chips = {"For You", "Trending", "All", "Bollywood", "South Indian", "Hollywood", "Series", "Anime", "Cartoons", "Action", "Comedy", "Horror", "Sci-Fi"};
         for (int i = 0; i < chips.length; i++) {
             final String chip = chips[i];
             TextView item = text(chip, 14, (i == 0 || i == 1) ? WHITE : MUTED);
@@ -244,8 +244,10 @@ public class MainActivity extends Activity {
 
         addFeatured();
         addPremiumBanner();
-        addMovieSection("Trending Movies", "Movies");
-        addMovieSection("Watch on ABHI TV", "Web Series");
+        addMovieSection("Trending Movies", "All");
+        addMovieSection("Animated & Family", "Animated");
+        addMovieSection("Sci-Fi & Adventure", "Sci-Fi");
+        addMovieSection("Web Series", "Web Series");
         addMovieSection("TV Shows & Cartoons", "TV Shows");
         addNavigation();
     }
@@ -333,14 +335,14 @@ public class MainActivity extends Activity {
             int found = 0;
             for (int i = 0; i < localMovies.length(); i++) {
                 JSONObject movie = localMovies.optJSONObject(i);
-                if (movie == null || !movie.optString("category", "Movies").equalsIgnoreCase(category)) continue;
+                if (movie == null || !matchesCategory(category, movie.optString("category", "Movies"), movie.optString("title", ""))) continue;
                 addMovieCard(row, movie.optString("title", "Untitled"),
                         movie.optString("description", "No description available."),
                         movie.optString("videoUrl", ""), movie.optString("posterUrl", ""));
                 found++;
             }
             for (CloudMovie movie : cloudMovies) {
-                if (!movie.category.equalsIgnoreCase(category)) continue;
+                if (!matchesCategory(category, movie.category, movie.title)) continue;
                 addMovieCard(row, movie.title, movie.description, movie.videoUrl, movie.posterUrl);
                 found++;
             }
@@ -374,24 +376,14 @@ public class MainActivity extends Activity {
             JSONObject m = localMovies.optJSONObject(i);
             if (m == null) continue;
             String cat = m.optString("category", "Movies");
-            if (category.equalsIgnoreCase("Trending") || category.equalsIgnoreCase("Football")
-                    || category.equalsIgnoreCase("Anime") || category.equalsIgnoreCase("Cricket")
-                    || category.equalsIgnoreCase("Movies") && cat.equalsIgnoreCase("Movies")
-                    || category.equalsIgnoreCase("Series") && cat.equalsIgnoreCase("Web Series")
-                    || category.equalsIgnoreCase("TV Shows") && cat.equalsIgnoreCase("TV Shows")
-                    || category.equalsIgnoreCase("Cartoons") && cat.equalsIgnoreCase("Cartoons")) {
+            if (matchesCategory(category, cat, m.optString("title", ""))) {
                 addMovieCard(rows, m.optString("title", "Untitled"), m.optString("description", ""),
                         m.optString("videoUrl", ""), m.optString("posterUrl", ""));
                 count++;
             }
         }
         for (CloudMovie m : cloudMovies) {
-            boolean match = category.equalsIgnoreCase("Trending") || category.equalsIgnoreCase("Football")
-                    || category.equalsIgnoreCase("Anime") || category.equalsIgnoreCase("Cricket")
-                    || category.equalsIgnoreCase("Movies") && m.category.equalsIgnoreCase("Movies")
-                    || category.equalsIgnoreCase("Series") && m.category.equalsIgnoreCase("Web Series")
-                    || category.equalsIgnoreCase("TV Shows") && m.category.equalsIgnoreCase("TV Shows")
-                    || category.equalsIgnoreCase("Cartoons") && m.category.equalsIgnoreCase("Cartoons");
+            boolean match = matchesCategory(category, m.category, m.title);
             if (match) { addMovieCard(rows, m.title, m.description, m.videoUrl, m.posterUrl); count++; }
         }
         if (count == 0) {
@@ -401,6 +393,27 @@ public class MainActivity extends Activity {
         }
         list.addView(rows);
         root.addView(list, new LinearLayout.LayoutParams(-1, 0, 1));
+    }
+
+    private boolean matchesCategory(String requested, String actual, String title) {
+        String wanted = requested == null ? "" : requested.trim().toLowerCase(java.util.Locale.ROOT);
+        String cat = actual == null ? "" : actual.trim().toLowerCase(java.util.Locale.ROOT);
+        String name = title == null ? "" : title.toLowerCase(java.util.Locale.ROOT);
+        if (wanted.isEmpty() || wanted.equals("all") || wanted.equals("for you") || wanted.equals("trending")) return true;
+        if (wanted.equals("series")) wanted = "web series";
+        if (wanted.equals("movies")) return cat.equals("movies") || cat.equals("action") || cat.equals("comedy")
+                || cat.equals("horror") || cat.equals("thriller") || cat.equals("romance") || cat.equals("bollywood")
+                || cat.equals("south indian") || cat.equals("hollywood") || cat.equals("sci-fi");
+        if (wanted.equals("cartoons") || wanted.equals("anime")) return cat.equals("animated") || cat.equals(wanted)
+                || name.contains("cartoon") || name.contains("anime");
+        if (wanted.equals("bollywood")) return cat.equals("bollywood") || name.contains("[hindi]") || name.contains("hindi");
+        if (wanted.equals("south indian")) return cat.equals("south indian") || name.contains("tamil") || name.contains("telugu")
+                || name.contains("malayalam") || name.contains("kannada");
+        if (wanted.equals("hollywood")) return cat.equals("hollywood") || name.contains("hollywood");
+        if (wanted.equals("action") || wanted.equals("comedy") || wanted.equals("horror")) return cat.equals(wanted);
+        if (wanted.equals("sci-fi")) return cat.equals("sci-fi") || cat.equals("science fiction");
+        if (wanted.equals("web series")) return cat.equals("web series") || cat.equals("series");
+        return cat.equals(wanted);
     }
 
     private void addMovieCard(LinearLayout row, String name, String description, String videoUrl, String posterUrl) {
