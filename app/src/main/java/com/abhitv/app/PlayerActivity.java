@@ -2,7 +2,6 @@ package com.abhitv.app;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.View;
@@ -15,7 +14,9 @@ import androidx.media3.common.MediaItem;
 import androidx.media3.common.MimeTypes;
 import androidx.media3.common.PlaybackException;
 import androidx.media3.common.Player;
+import androidx.media3.datasource.DefaultHttpDataSource;
 import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 import androidx.media3.ui.PlayerView;
 
 public class PlayerActivity extends Activity {
@@ -24,6 +25,7 @@ public class PlayerActivity extends Activity {
 
     private ExoPlayer player;
     private PlayerView playerView;
+    private TextView durationStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,18 @@ public class PlayerActivity extends Activity {
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
 
+        durationStatus = new TextView(this);
+        durationStatus.setTextColor(Color.WHITE);
+        durationStatus.setTextSize(12);
+        durationStatus.setPadding(10, 6, 10, 6);
+        durationStatus.setBackgroundColor(0x99000000);
+        durationStatus.setText("Duration load ho rahi hai…");
+        FrameLayout.LayoutParams statusParams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
+                android.view.Gravity.BOTTOM | android.view.Gravity.END);
+        statusParams.setMargins(0, 0, 18, 76);
+        frame.addView(durationStatus, statusParams);
+
         TextView back = new TextView(this);
         back.setText("✕");
         back.setTextColor(Color.WHITE);
@@ -69,22 +83,41 @@ public class PlayerActivity extends Activity {
         back.setOnClickListener(v -> finish());
         setContentView(frame);
 
-        player = new ExoPlayer.Builder(this).build();
+        DefaultHttpDataSource.Factory httpFactory = new DefaultHttpDataSource.Factory()
+                .setUserAgent("ABHI-TV/1.0 (Android; Media3)")
+                .setAllowCrossProtocolRedirects(true)
+                .setConnectTimeoutMs(20000)
+                .setReadTimeoutMs(30000);
+        player = new ExoPlayer.Builder(this)
+                .setMediaSourceFactory(new DefaultMediaSourceFactory(httpFactory))
+                .build();
         playerView.setPlayer(player);
+
         MediaItem.Builder itemBuilder = new MediaItem.Builder().setUri(Uri.parse(url));
         String lower = url.toLowerCase(java.util.Locale.ROOT);
         if (lower.contains(".m3u8")) {
             itemBuilder.setMimeType(MimeTypes.APPLICATION_M3U8);
         } else if (lower.contains(".mp4")) {
-            // Declare MP4 explicitly when a host sends a generic or missing Content-Type.
             itemBuilder.setMimeType(MimeTypes.VIDEO_MP4);
         }
         if (title != null && !title.trim().isEmpty()) {
             playerView.setContentDescription(title);
         }
+
         player.addListener(new Player.Listener() {
             @Override
+            public void onTimelineChanged(androidx.media3.common.Timeline timeline, int reason) {
+                updateDurationStatus();
+            }
+
+            @Override
+            public void onPlaybackStateChanged(int playbackState) {
+                updateDurationStatus();
+            }
+
+            @Override
             public void onPlayerError(PlaybackException error) {
+                durationStatus.setText("Duration unavailable");
                 Toast.makeText(PlayerActivity.this,
                         "Video play nahi hua. Link/format ya server access check karo.",
                         Toast.LENGTH_LONG).show();
@@ -93,6 +126,19 @@ public class PlayerActivity extends Activity {
         player.setMediaItem(itemBuilder.build());
         player.prepare();
         player.play();
+    }
+
+    private void updateDurationStatus() {
+        if (player == null || durationStatus == null) return;
+        long durationMs = player.getDuration();
+        if (durationMs == androidx.media3.common.C.TIME_UNSET || durationMs < 0) {
+            durationStatus.setText(player.getPlaybackState() == Player.STATE_BUFFERING
+                    ? "Duration load ho rahi hai…" : "Duration source se nahi mili");
+            return;
+        }
+        long totalSeconds = durationMs / 1000;
+        durationStatus.setText(String.format(java.util.Locale.ROOT, "%02d:%02d",
+                totalSeconds / 60, totalSeconds % 60));
     }
 
     @Override
