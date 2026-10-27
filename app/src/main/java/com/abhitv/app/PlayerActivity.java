@@ -86,7 +86,8 @@ public class PlayerActivity extends Activity {
         setContentView(frame);
 
         DefaultHttpDataSource.Factory httpFactory = new DefaultHttpDataSource.Factory()
-                .setUserAgent("ABHI-TV/1.0 (Android; Media3)")
+                .setUserAgent("Mozilla/5.0 (Linux; Android 16) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36")
+                .setDefaultRequestProperties(java.util.Collections.singletonMap("Accept", "*/*"))
                 .setAllowCrossProtocolRedirects(true)
                 .setConnectTimeoutMs(20000)
                 .setReadTimeoutMs(30000);
