@@ -15,9 +15,9 @@
       "posterUrl": ""
     },
     {
-      "title": "Sintel",
-      "description": "Free open animated fantasy short film from the Blender Open Movie project. Direct MP4 stream; playback in ABHI TV has not yet been tested.",
-      "videoUrl": "https://download.blender.org/durian/movies/sintel-1024-surround.mp4",
+      "title": "Sintel (Trailer)",
+      "description": "Free open animated fantasy trailer from the Blender Open Movie project. Uses a direct MP4 sample stream with known playback metadata.",
+      "videoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
       "category": "Cartoons",
       "posterUrl": ""
     }
