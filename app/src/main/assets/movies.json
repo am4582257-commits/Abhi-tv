@@ -1,23 +1,9 @@
 {
   "movies": [
     {
-      "title": "Big Buck Bunny",
-      "description": "Blender Foundation open animated movie.",
-      "videoUrl": "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
-      "category": "Cartoons",
-      "posterUrl": "https://download.blender.org/peach/bigbuckbunny_movies/poster.jpg"
-    },
-    {
-      "title": "Elephants Dream",
-      "description": "Blender Foundation open movie.",
-      "videoUrl": "https://download.blender.org/ED/ED_1024.mp4",
-      "category": "Movies",
-      "posterUrl": ""
-    },
-    {
-      "title": "Sintel",
-      "description": "Blender Foundation open movie.",
-      "videoUrl": "https://download.blender.org/durian/movies/sintel-1024-surround.mp4",
+      "title": "Sintel Trailer (Playback Test)",
+      "description": "Public MP4 test stream to verify ABHI TV playback. This is a trailer, not the full movie.",
+      "videoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
       "category": "Cartoons",
       "posterUrl": ""
     }
@@ -28,5 +14,5 @@
     "TV Shows",
     "Cartoons"
   ],
-  "version": 9
+  "version": 10
 }
