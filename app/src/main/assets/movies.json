@@ -1,6 +1,27 @@
 {
   "movies": [
     {
+      "title": "Big Buck Bunny (Full Movie)",
+      "description": "Open-licensed Blender animated film. Direct MP4 source; availability should be tested in app.",
+      "videoUrl": "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
+      "category": "Animated",
+      "posterUrl": ""
+    },
+    {
+      "title": "Sintel (Full Movie)",
+      "description": "Open-licensed Blender animated film. Direct MP4 source; availability should be tested in app.",
+      "videoUrl": "https://download.blender.org/durian/movies/Sintel.2010.720p.mp4",
+      "category": "Animated",
+      "posterUrl": ""
+    },
+    {
+      "title": "Tears of Steel (Open Movie)",
+      "description": "Open-licensed Blender short film; direct source availability and format need in-app testing.",
+      "videoUrl": "https://download.blender.org/demo/movies/ToS/tears_of_steel_720p.mov",
+      "category": "Sci-Fi",
+      "posterUrl": ""
+    },
+    {
       "title": "Video Playback Test (HLS)",
       "description": "Known public HLS test stream to verify playback. This is a test stream, not a full movie.",
       "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
@@ -45,5 +66,5 @@
     "Web Series",
     "TV Shows"
   ],
-  "version": 14
+  "version": 15
 }
