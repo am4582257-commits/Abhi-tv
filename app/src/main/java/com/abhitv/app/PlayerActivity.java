@@ -132,7 +132,7 @@ public class PlayerActivity extends Activity {
 
             @Override
             public void onPlayerError(PlaybackException error) {
-                String detail = error.errorCodeName == null ? "Playback error" : error.errorCodeName;
+                String detail = "Playback error (code " + error.errorCode + ")";
                 Throwable cause = error.getCause();
                 if (cause != null && cause.getMessage() != null && !cause.getMessage().trim().isEmpty()) {
                     detail += ": " + cause.getMessage();
