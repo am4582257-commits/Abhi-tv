@@ -439,6 +439,17 @@ public class MainActivity extends Activity {
         title.setMaxLines(3);
         title.setPadding(0, 8, 0, 0);
         card.addView(title);
+        String duration = "";
+        String normalizedTitle = name == null ? "" : name.toLowerCase(java.util.Locale.ROOT);
+        if (normalizedTitle.contains("big buck bunny")) duration = "09:56";
+        else if (normalizedTitle.contains("elephants dream")) duration = "10:53";
+        else if (normalizedTitle.contains("sintel")) duration = "14:48";
+        if (!duration.isEmpty()) {
+            TextView durationLabel = text("▶  " + duration, 11, Color.rgb(125, 230, 190));
+            durationLabel.setTypeface(null, Typeface.BOLD);
+            durationLabel.setPadding(0, 6, 0, 0);
+            card.addView(durationLabel);
+        }
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(154, 224);
         params.setMargins(0, 0, 12, 0);
         row.addView(card, params);
