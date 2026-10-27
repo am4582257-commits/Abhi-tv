@@ -2,9 +2,30 @@
   "movies": [
     {
       "title": "Big Buck Bunny",
-      "description": "Free animated short film from the Blender Open Movie project. This is a public sample MP4 stream; playback has not been tested inside the ABHI TV app yet.",
+      "description": "Free open animated film from the Blender Open Movie project. Direct MP4 stream; playback in ABHI TV has not yet been tested.",
       "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
       "category": "Cartoons",
+      "posterUrl": ""
+    },
+    {
+      "title": "Elephants Dream",
+      "description": "Free open movie released by the Blender Foundation. Direct MP4 stream; playback in ABHI TV has not yet been tested.",
+      "videoUrl": "https://download.blender.org/ED/ED_1024.mp4",
+      "category": "Movies",
+      "posterUrl": ""
+    },
+    {
+      "title": "Sintel",
+      "description": "Free open animated fantasy short film from the Blender Open Movie project. Direct MP4 stream; playback in ABHI TV has not yet been tested.",
+      "videoUrl": "https://download.blender.org/durian/movies/sintel-1024-surround.mp4",
+      "category": "Cartoons",
+      "posterUrl": ""
+    },
+    {
+      "title": "Tears of Steel",
+      "description": "Free open science-fiction short film from the Blender Foundation. Direct MP4 stream; playback in ABHI TV has not yet been tested.",
+      "videoUrl": "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
+      "category": "Movies",
       "posterUrl": ""
     }
   ],
@@ -14,5 +35,5 @@
     "TV Shows",
     "Cartoons"
   ],
-  "version": 2
+  "version": 3
 }
