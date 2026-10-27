@@ -15,9 +15,9 @@
       "posterUrl": ""
     },
     {
-      "title": "Sintel (Trailer)",
-      "description": "Free open animated fantasy trailer from the Blender Open Movie project. Uses a direct MP4 sample stream with known playback metadata.",
-      "videoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
+      "title": "Sintel (Test MP4)",
+      "description": "Direct MP4 test source from Google's public sample video bucket, selected to verify duration metadata and timeline seeking in ABHI TV.",
+      "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
       "category": "Cartoons",
       "posterUrl": ""
     }
@@ -28,5 +28,5 @@
     "TV Shows",
     "Cartoons"
   ],
-  "version": 4
+  "version": 5
 }
