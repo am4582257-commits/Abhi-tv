@@ -54,6 +54,10 @@ public class MainActivity extends Activity {
     private FirebaseFirestore db;
     private ListenerRegistration movieListener;
     private boolean showingDetails = false;
+    private String currentScreen = "home";
+    private String currentCategory = "";
+    private String detailsReturnScreen = "home";
+    private String detailsReturnCategory = "";
 
     private static class CloudMovie {
         String id, title, description, videoUrl, category, posterUrl;
@@ -78,6 +82,23 @@ public class MainActivity extends Activity {
         localMovies = loadMovies();
         showHome();
         listenForCloudMovies();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if ("details".equals(currentScreen)) {
+            if ("category".equals(detailsReturnScreen) && !detailsReturnCategory.isEmpty()) {
+                showCategoryScreen(detailsReturnCategory);
+            } else {
+                showHome();
+            }
+            return;
+        }
+        if ("category".equals(currentScreen)) {
+            showHome();
+            return;
+        }
+        super.onBackPressed();
     }
 
     @Override
@@ -142,6 +163,8 @@ public class MainActivity extends Activity {
     }
 
     private void showHome() {
+        currentScreen = "home";
+        currentCategory = "";
         showingDetails = false;
         ScrollView scroll = new ScrollView(this);
         scroll.setFillViewport(true);
@@ -332,6 +355,8 @@ public class MainActivity extends Activity {
     }
 
     private void showCategoryScreen(String category) {
+        currentScreen = "category";
+        currentCategory = category;
         showingDetails = false;
         root.removeAllViews();
         TextView back = text("←  Back to Home", 16, WHITE);
@@ -423,6 +448,9 @@ public class MainActivity extends Activity {
     }
 
     private void showDetails(String title, String description, String videoUrl) {
+        detailsReturnScreen = currentScreen;
+        detailsReturnCategory = currentCategory;
+        currentScreen = "details";
         showingDetails = true;
         root.removeAllViews();
 
