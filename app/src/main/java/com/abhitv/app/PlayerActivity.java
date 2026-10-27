@@ -45,6 +45,18 @@ public class PlayerActivity extends Activity {
 
         String url = getIntent().getStringExtra(EXTRA_URL);
         String title = getIntent().getStringExtra(EXTRA_TITLE);
+        if (isYouTubeUrl(url)) {
+            try {
+                android.content.Intent youtubeIntent = new android.content.Intent(
+                        android.content.Intent.ACTION_VIEW, Uri.parse(url));
+                youtubeIntent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(youtubeIntent);
+            } catch (Exception e) {
+                Toast.makeText(this, "YouTube link open nahi hua: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+            finish();
+            return;
+        }
         if (url == null || !(url.startsWith("https://") || url.startsWith("http://"))) {
             Toast.makeText(this, "Valid video URL nahi mili", Toast.LENGTH_LONG).show();
             finish();
@@ -148,6 +160,21 @@ public class PlayerActivity extends Activity {
         player.setMediaItem(itemBuilder.build());
         player.prepare();
         player.play();
+    }
+
+    private boolean isYouTubeUrl(String value) {
+        if (value == null) return false;
+        try {
+            Uri uri = Uri.parse(value);
+            String host = uri.getHost();
+            if (host == null) return false;
+            host = host.toLowerCase(java.util.Locale.ROOT);
+            return host.equals("youtu.be") || host.equals("youtube.com")
+                    || host.endsWith(".youtube.com") || host.equals("youtube-nocookie.com")
+                    || host.endsWith(".youtube-nocookie.com");
+        } catch (Exception ignored) {
+            return false;
+        }
     }
 
     private void updateDurationStatus() {
