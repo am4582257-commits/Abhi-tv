@@ -1,4 +1,3 @@
-
 name: Build ABHI TV APK
 
 on:
@@ -32,9 +31,33 @@ jobs:
       - name: Clean and build APK
         run: gradle clean assembleDebug --no-daemon --stacktrace
 
+      # Configure these four repository Actions secrets to keep one signing
+      # identity across builds. Never commit the keystore or its passwords.
+      - name: Sign APK with permanent release key
+        if: ${{ secrets.ABHI_TV_KEYSTORE_BASE64 != '' && secrets.ABHI_TV_KEYSTORE_PASSWORD != '' && secrets.ABHI_TV_KEY_ALIAS != '' && secrets.ABHI_TV_KEY_PASSWORD != '' }}
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ABHI_TV_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ABHI_TV_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ABHI_TV_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ABHI_TV_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          APK="app/build/outputs/apk/debug/app-debug.apk"
+          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/abhi-tv-release.jks"
+          "$ANDROID_HOME/build-tools/35.0.0/zipalign" -f -p 4 "$APK" "$RUNNER_TEMP/abhi-tv-aligned.apk"
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" sign \
+            --ks "$RUNNER_TEMP/abhi-tv-release.jks" \
+            --ks-key-alias "$KEY_ALIAS" \
+            --ks-pass env:KEYSTORE_PASSWORD \
+            --key-pass env:KEY_PASSWORD \
+            --out "$RUNNER_TEMP/abhi-tv-signed.apk" \
+            "$RUNNER_TEMP/abhi-tv-aligned.apk"
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify "$RUNNER_TEMP/abhi-tv-signed.apk"
+          mv "$RUNNER_TEMP/abhi-tv-signed.apk" "$APK"
+          rm -f "$RUNNER_TEMP/abhi-tv-release.jks" "$RUNNER_TEMP/abhi-tv-aligned.apk"
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: ABHI-TV-debug-apk
           path: app/build/outputs/apk/debug/*.apk
-          
