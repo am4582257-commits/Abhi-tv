@@ -51,6 +51,26 @@ public class PlayerActivity extends Activity {
             return;
         }
 
+        String youtubeId = extractYouTubeId(url);
+        if (youtubeId != null) {
+            android.webkit.WebView webView = new android.webkit.WebView(this);
+            webView.setBackgroundColor(Color.BLACK);
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.getSettings().setDomStorageEnabled(true);
+            webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
+            webView.setWebChromeClient(new android.webkit.WebChromeClient());
+            String html = "<!doctype html><html><head><meta name='viewport' content='width=device-width,initial-scale=1,maximum-scale=1'></head>"
+                    + "<body style='margin:0;background:#000;display:flex;align-items:center;height:100vh'>"
+                    + "<iframe style='border:0;width:100%;aspect-ratio:16/9' "
+                    + "src='https://www.youtube-nocookie.com/embed/" + youtubeId
+                    + "?autoplay=1&playsinline=1&controls=1&rel=0' "
+                    + "allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' "
+                    + "allowfullscreen></iframe></body></html>";
+            setContentView(webView);
+            webView.loadDataWithBaseURL("https://www.youtube-nocookie.com", html, "text/html", "UTF-8", null);
+            return;
+        }
+
         FrameLayout frame = new FrameLayout(this);
         frame.setBackgroundColor(Color.BLACK);
         playerView = new PlayerView(this);
@@ -148,6 +168,29 @@ public class PlayerActivity extends Activity {
         player.setMediaItem(itemBuilder.build());
         player.prepare();
         player.play();
+    }
+
+    private String extractYouTubeId(String value) {
+        try {
+            Uri uri = Uri.parse(value);
+            String host = uri.getHost();
+            if (host == null) return null;
+            host = host.toLowerCase(java.util.Locale.ROOT);
+            String id = null;
+            if (host.equals("youtu.be") || host.endsWith(".youtu.be")) {
+                id = uri.getLastPathSegment();
+            } else if (host.equals("youtube.com") || host.endsWith(".youtube.com")
+                    || host.equals("m.youtube.com") || host.equals("www.youtube.com")) {
+                if ("/watch".equals(uri.getPath())) id = uri.getQueryParameter("v");
+                else if (uri.getPath() != null && (uri.getPath().startsWith("/embed/")
+                        || uri.getPath().startsWith("/shorts/") || uri.getPath().startsWith("/live/"))) {
+                    String[] parts = uri.getPath().split("/");
+                    if (parts.length > 2) id = parts[2];
+                }
+            }
+            if (id != null && id.matches("[A-Za-z0-9_-]{11}")) return id;
+        } catch (Exception ignored) { }
+        return null;
     }
 
     private void updateDurationStatus() {
