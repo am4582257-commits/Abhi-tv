@@ -1,84 +1,13 @@
 {
   "movies": [
-    {
-      "title": "Big Buck Bunny (Full Movie)",
-      "description": "Open-licensed Blender animated film. Direct MP4 source; availability should be tested in app.",
-      "videoUrl": "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
-      "category": "Animated",
-      "posterUrl": ""
-    },
-    {
-      "title": "Sintel (Full Movie)",
-      "description": "Open-licensed Blender animated film. Direct MP4 source; availability should be tested in app.",
-      "videoUrl": "https://download.blender.org/durian/movies/Sintel.2010.720p.mp4",
-      "category": "Animated",
-      "posterUrl": ""
-    },
-    {
-      "title": "Tears of Steel (Open Movie)",
-      "description": "Open-licensed Blender short film; direct source availability and format need in-app testing.",
-      "videoUrl": "https://download.blender.org/demo/movies/ToS/tears_of_steel_720p.mov",
-      "category": "Sci-Fi",
-      "posterUrl": ""
-    },
-    {
-      "title": "Video Playback Test (HLS)",
-      "description": "Known public HLS test stream to verify playback. This is a test stream, not a full movie.",
-      "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
-      "category": "Movies",
-      "posterUrl": ""
-    },
-    {
-      "title": "Big Buck Bunny (Trailer)",
-      "description": "Public MP4 trailer clip; trailer only, not the full movie.",
-      "videoUrl": "https://media.w3.org/2010/05/bunny/trailer.mp4",
-      "category": "Animated",
-      "posterUrl": ""
-    },
-    {
-      "title": "Sintel (Trailer)",
-      "description": "Public MP4 trailer clip; confirmed by user to play. Trailer only, not the full movie.",
-      "videoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
-      "category": "Animated",
-      "posterUrl": ""
-    },
-    {
-      "title": "MP4 Sample Clip",
-      "description": "Public MP4 sample clip to test playback compatibility; not a full movie.",
-      "videoUrl": "https://media.w3.org/2010/05/video/movie_300.mp4",
-      "category": "Movies",
-      "posterUrl": ""
-    },
-    {
-      "title": "Elephants Dream (Open Movie)",
-      "description": "Blender Foundation open movie. Direct MP4 source; playback should be checked on device.",
-      "videoUrl": "https://download.blender.org/ED/ED_HD.mp4",
-      "category": "Animated",
-      "posterUrl": ""
-    },
-    {
-      "title": "Cosmos Laundromat (Open Movie)",
-      "description": "Blender Foundation open movie. Direct MP4 source; playback should be checked on device.",
-      "videoUrl": "https://download.blender.org/demo/movies/Cosmos_Laundromat/Cosmos_Laundromat.mp4",
-      "category": "Sci-Fi",
-      "posterUrl": ""
-    }
+    {"title":"Big Buck Bunny — Full Movie","description":"Blender Foundation open movie; direct MP4 full-film source.","videoUrl":"https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4","category":"Animated","posterUrl":""},
+    {"title":"Sintel — Full Movie","description":"Blender Foundation open movie; direct MP4 full-film source.","videoUrl":"https://download.blender.org/durian/movies/Sintel.2010.720p.mp4","category":"Animated","posterUrl":""},
+    {"title":"Tears of Steel — Open Movie","description":"Blender Foundation open movie; direct MOV source. Device codec support may vary.","videoUrl":"https://download.blender.org/demo/movies/ToS/tears_of_steel_720p.mov","category":"Sci-Fi","posterUrl":""},
+    {"title":"Big Buck Bunny — Trailer","description":"Short preview clip, not the full movie.","videoUrl":"https://media.w3.org/2010/05/bunny/trailer.mp4","category":"Animated","posterUrl":""},
+    {"title":"Sintel — Trailer","description":"Short preview clip, not the full movie.","videoUrl":"https://media.w3.org/2010/05/sintel/trailer.mp4","category":"Animated","posterUrl":""},
+    {"title":"MP4 Sample Clip","description":"Playback compatibility sample, not a movie.","videoUrl":"https://media.w3.org/2010/05/video/movie_300.mp4","category":"Movies","posterUrl":""},
+    {"title":"Video Playback Test (HLS)","description":"HLS test stream for checking player support; not a movie.","videoUrl":"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8","category":"Movies","posterUrl":""}
   ],
-  "categories": [
-    "All",
-    "Movies",
-    "Action",
-    "Comedy",
-    "Horror",
-    "Thriller",
-    "Sci-Fi",
-    "Animated",
-    "South Indian",
-    "Bollywood",
-    "Hollywood",
-    "Romance",
-    "Web Series",
-    "TV Shows"
-  ],
+  "categories": ["All","Movies","Action","Comedy","Horror","Thriller","Sci-Fi","Animated","South Indian","Bollywood","Hollywood","Romance","Web Series","TV Shows"],
   "version": 16
 }
