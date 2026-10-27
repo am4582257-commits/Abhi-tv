@@ -17,6 +17,8 @@ import androidx.media3.common.Player;
 import androidx.media3.datasource.DefaultHttpDataSource;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
+import androidx.media3.extractor.DefaultExtractorsFactory;
+import androidx.media3.extractor.mp4.Mp4Extractor;
 import androidx.media3.ui.PlayerView;
 
 public class PlayerActivity extends Activity {
@@ -88,8 +90,11 @@ public class PlayerActivity extends Activity {
                 .setAllowCrossProtocolRedirects(true)
                 .setConnectTimeoutMs(20000)
                 .setReadTimeoutMs(30000);
+        DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory()
+                .setMp4ExtractorFlags(Mp4Extractor.FLAG_WORKAROUND_IGNORE_EDIT_LISTS);
         player = new ExoPlayer.Builder(this)
-                .setMediaSourceFactory(new DefaultMediaSourceFactory(httpFactory))
+                .setMediaSourceFactory(new DefaultMediaSourceFactory(this, extractorsFactory)
+                        .setDataSourceFactory(httpFactory))
                 .build();
         playerView.setPlayer(player);
 
@@ -112,6 +117,16 @@ public class PlayerActivity extends Activity {
 
             @Override
             public void onPlaybackStateChanged(int playbackState) {
+                updateDurationStatus();
+            }
+
+            @Override
+            public void onIsLoadingChanged(boolean isLoading) {
+                updateDurationStatus();
+            }
+
+            @Override
+            public void onEvents(Player player, Player.Events events) {
                 updateDurationStatus();
             }
 
