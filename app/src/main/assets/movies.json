@@ -2,24 +2,24 @@
   "movies": [
     {
       "title": "Big Buck Bunny",
-      "description": "Blender Foundation open movie. Public MP4 sample stream for playback testing.",
+      "description": "Blender Foundation open animated movie.",
       "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
       "category": "Cartoons",
       "posterUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"
     },
     {
-      "title": "For Bigger Joyrides",
-      "description": "Public sample MP4 video used to test independent playback and duration metadata.",
-      "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+      "title": "Elephants Dream",
+      "description": "Blender Foundation open movie. Original direct MP4 source restored.",
+      "videoUrl": "https://download.blender.org/ED/ED_1024.mp4",
       "category": "Movies",
-      "posterUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerJoyrides.jpg"
+      "posterUrl": ""
     },
     {
-      "title": "For Bigger Fun",
-      "description": "Public sample MP4 video used to test independent playback and duration metadata.",
-      "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+      "title": "Sintel",
+      "description": "Blender Foundation open movie. Original title restored; using a known public MP4 stream until a verified Sintel source is configured.",
+      "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
       "category": "Cartoons",
-      "posterUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerFun.jpg"
+      "posterUrl": ""
     }
   ],
   "categories": [
@@ -28,5 +28,5 @@
     "TV Shows",
     "Cartoons"
   ],
-  "version": 7
+  "version": 8
 }
