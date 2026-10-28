@@ -56,6 +56,15 @@ public class PlayerActivity extends Activity {
         }
 
         String youtubeId = extractYouTubeId(url);
+        Uri inputUri = Uri.parse(url);
+        String inputHost = inputUri.getHost();
+        if (inputHost != null) {
+            inputHost = inputHost.toLowerCase(java.util.Locale.ROOT);
+            if (inputHost.equals("moviebox.ph") || inputHost.endsWith(".moviebox.ph")) {
+                showUnsupportedLinkMessage("Ye MovieBox share link hai, direct video URL nahi. ABHI TV mein authorized direct MP4/HLS link ya supported YouTube link use karein.");
+                return;
+            }
+        }
         if (youtubeId != null) {
             android.webkit.WebView webView = new android.webkit.WebView(this);
             webView.setBackgroundColor(Color.BLACK);
@@ -179,6 +188,18 @@ public class PlayerActivity extends Activity {
         player.prepare();
         player.play();
         startLoadingTimeout();
+    }
+
+    private void showUnsupportedLinkMessage(String message) {
+        TextView notice = new TextView(this);
+        notice.setText(message);
+        notice.setTextColor(Color.WHITE);
+        notice.setTextSize(18);
+        notice.setGravity(android.view.Gravity.CENTER);
+        notice.setPadding(32, 32, 32, 32);
+        notice.setBackgroundColor(Color.BLACK);
+        setContentView(notice);
+        Toast.makeText(this, "Unsupported share link", Toast.LENGTH_LONG).show();
     }
 
     private String extractYouTubeId(String value) {
